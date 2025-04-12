@@ -1,0 +1,69 @@
+
+.bg-custom {
+    background: url('./pexels-scottwebb-305821.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh; /* Full viewport height */
+    width: 100%;
+    overflow: hidden; /* Prevent scrolling */
+  }
+  body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(230,231,225);
+  }
+  .nav-bg{
+    background-color: rgb(230,231,225);
+    border: 2px rgb(28, 166, 44) solid;
+  }
+
+  .container{
+    width: 50%;
+    display: flex;
+    gap: 5px;
+    margin: 40px 0px 0px 0px;
+  }
+
+  .parent-container{
+    margin-top: 80px;
+    margin-left: 50px;
+  }
+
+  .heading-text{
+    font-size: 70px;
+    color: rgb(58, 130, 58);
+    font-weight:500;
+  }
+
+  .card-container {
+    margin: 0px 20px;
+    height: calc(100vh - 60px); /* Adjust 100px based on your navbar or top content height */
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+}
+
+.card-container img { 
+    width: 130px;       /* Adjust width to make image smaller */
+    height: 200px;      /* Adjust height accordingly */
+    object-fit: contain; /* Ensures the whole image fits without cropping */
+    display: block;      /* Prevents extra spacing issues */
+    margin: 0 auto;      /* Centers the image */
+    /* Optional: Gives rounded corners */
+}
+
+.card-container::-webkit-scrollbar {
+  display: none;
+  
+}
+.card-title{
+  font-weight: bold;
+}
+
+
+.green-text {
+  color: rgb(58, 130, 58);
+}
+.green-sub-text{
+  color: rgb(72, 72, 72);
+}
