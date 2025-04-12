@@ -11,7 +11,9 @@ CORS(app)  # Enable CORS for all routes
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 # Load trained model
-model = tf.keras.models.load_model("trained_model_V22.keras")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(BASE_DIR, "trained_model_V22.keras")
+model = tf.keras.models.load_model(model_path)
 print("Model loaded successfully.")
 
 # Class names
