@@ -59,6 +59,7 @@ def predict():
     file.save(filepath)
 
     result = predict_disease(filepath)
+    print(result)
     return jsonify({'prediction': result})
 
 if __name__ == '__main__':
