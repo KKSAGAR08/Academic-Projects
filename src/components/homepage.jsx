@@ -33,7 +33,7 @@ function Homepage() {
 
         try {
             setLoading(true);
-            const response = await axios.post("http://localhost:5000/predict", formdata, {
+            const response = await axios.post("https://academic-projects.onrender.com/predict", formdata, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
             setPredict(response.data.prediction);
