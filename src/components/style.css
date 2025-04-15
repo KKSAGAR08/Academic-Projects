@@ -45,7 +45,7 @@
 
 .card-container img { 
     width: 130px;       /* Adjust width to make image smaller */
-    height: auto;      /* Adjust height accordingly */
+    height: 200px;      /* Adjust height accordingly */
     object-fit: contain; /* Ensures the whole image fits without cropping */
     display: block;      /* Prevents extra spacing issues */
     margin: 0 auto;      /* Centers the image */
