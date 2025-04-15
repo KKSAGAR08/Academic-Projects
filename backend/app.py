@@ -6,7 +6,7 @@ import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app, resources={r"/*": {"origins": "https://academic-projects-mu.vercel.app/"}})  # Enable CORS for all routes
 
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
