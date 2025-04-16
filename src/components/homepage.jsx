@@ -4,9 +4,11 @@ import "./style.css";
 import { useNavigate } from "react-router-dom"
 import { OrbitProgress } from 'react-loading-indicators';
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 function Homepage() {
-
+    
     const [img, setImg] = useState(null);
     const [predict, setPredict] = useState(null);
     const [imageURL, setImageURL] = useState(null);
@@ -33,7 +35,7 @@ function Homepage() {
 
         try {
             setLoading(true);
-            const response = await axios.post("https://academic-projects.onrender.com/predict", formdata, {
+            const response = await axios.post(`${API_URL}/predict`, formdata, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
             setPredict(response.data.prediction);
