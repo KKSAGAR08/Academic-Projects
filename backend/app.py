@@ -8,7 +8,8 @@ app = Flask(__name__)
 CORS(app)
 
 # Load trained model
-model_path = "trained_model_V22.keras"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(BASE_DIR, "trained_model_V22.keras")
 model = tf.keras.models.load_model(model_path)
 print("Model loaded successfully.")
 
