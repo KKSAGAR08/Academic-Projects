@@ -2,17 +2,13 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import tensorflow as tf
 import numpy as np
-import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 CORS(app)
 
-app.config['UPLOAD_FOLDER'] = 'static/uploads'
-
 # Load trained model
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(BASE_DIR, "trained_model_V22.keras")
+model_path = "trained_model_V22.keras"
 model = tf.keras.models.load_model(model_path)
 print("Model loaded successfully.")
 
@@ -33,10 +29,10 @@ class_names = [
     'Tomato___Tomato_Yellow_Leaf_Curl_Virus', 'Tomato___Tomato_mosaic_virus', 'Tomato___healthy'
 ]
 
-def predict_disease(image_path):
-    image = tf.keras.preprocessing.image.load_img(image_path, target_size=(128, 128))
-    input_arr = tf.keras.preprocessing.image.img_to_array(image)
-    input_arr = np.array([input_arr])  # Convert to batch format
+def predict_disease(image):
+    image = image.resize((128, 128))  # Resize image to 128x128
+    input_arr = np.array(image)  # Convert to array
+    input_arr = np.expand_dims(input_arr, axis=0)  # Convert to batch format
     predictions = model.predict(input_arr)
     result_index = np.argmax(predictions)
     return class_names[result_index]
@@ -54,14 +50,13 @@ def predict():
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
-    filename = secure_filename(file.filename)
-    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    file.save(filepath)
-
-    result = predict_disease(filepath)
-    print(result)
-    return jsonify({'prediction': result})
+    try:
+        # Open the image directly without saving
+        image = tf.keras.preprocessing.image.load_img(file.stream, target_size=(128, 128))
+        result = predict_disease(image)
+        return jsonify({'prediction': result})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     app.run(debug=True)
