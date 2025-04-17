@@ -53,9 +53,10 @@ def predict():
         return jsonify({'error': 'No selected file'}), 400
 
     try:
-        # Open the image directly without saving
-        image = tf.keras.preprocessing.image.load_img(file.stream, target_size=(128, 128))
+        # Open the image directly without saving (fixed here)
+        image = tf.keras.preprocessing.image.load_img(file, target_size=(128, 128))
         result = predict_disease(image)
+        print(result)
         return jsonify({'prediction': result})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
