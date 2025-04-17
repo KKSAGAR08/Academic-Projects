@@ -2,7 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import tensorflow as tf
 import numpy as np
-import os  # Import os for model path handling
+import os  
+import io  
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -53,10 +54,9 @@ def predict():
         return jsonify({'error': 'No selected file'}), 400
 
     try:
-        # Open the image directly without saving (fixed here)
-        image = tf.keras.preprocessing.image.load_img(file, target_size=(128, 128))
+        
+        image = tf.keras.preprocessing.image.load_img(io.BytesIO(file.read()), target_size=(128, 128))
         result = predict_disease(image)
-        print(result)
         return jsonify({'prediction': result})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
