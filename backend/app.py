@@ -1,12 +1,14 @@
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import tensorflow as tf
 import numpy as np
-import os
 import io
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1" 
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2" 
 
 app = Flask(__name__)
 CORS(app)
@@ -34,6 +36,7 @@ class_names = [
 # Lazy model loading for low memory servers (Render free)
 def predict_disease(image):
     try:
+        print('Predicting....')
         model_path = os.path.join(BASE_DIR, "trained_model_V22.keras")
         model = tf.keras.models.load_model(model_path)
 
@@ -60,6 +63,7 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    print('Predicting....')
     print("Incoming request files:", request.files)
 
     if 'file' not in request.files:
