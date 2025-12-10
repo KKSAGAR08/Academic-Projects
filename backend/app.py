@@ -3,17 +3,25 @@ from flask_cors import CORS
 import tensorflow as tf
 import numpy as np
 import os  
-import io  
-from werkzeug.utils import secure_filename
+import io 
+import psutil
 
 app = Flask(__name__)
 CORS(app)
+process = psutil.Process(os.getpid())
+
+def memory_used():
+    return process.memory_info().rss / (1024 * 1024)
+
 
 # Load trained model
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+print(f"Memory BEFORE loading model: {memory_used():.2f} MB")
 model_path = os.path.join(BASE_DIR, "trained_model_V22.keras")
 model = tf.keras.models.load_model(model_path)
 print("Model loaded successfully.")
+print(f"Memory AFTER loading model: {memory_used():.2f} MB")
+print(f"Model RAM usage: {memory_used():.2f} MB")
 
 # Class names
 class_names = [
@@ -32,6 +40,8 @@ class_names = [
     'Tomato___Tomato_Yellow_Leaf_Curl_Virus', 'Tomato___Tomato_mosaic_virus', 'Tomato___healthy'
 ]
 
+
+
 def predict_disease(image):
     image = image.resize((128, 128))  # Resize image to 128x128
     input_arr = np.array(image)  # Convert to array
@@ -48,6 +58,7 @@ def index():
 def predict():
     if 'file' not in request.files:
         return jsonify({'error': 'No file uploaded'}), 400
+
 
     file = request.files['file']
     if file.filename == '':
