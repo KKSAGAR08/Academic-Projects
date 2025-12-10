@@ -7,26 +7,20 @@ from flask_cors import CORS
 import tensorflow as tf
 import numpy as np 
 import io  
-from werkzeug.utils import secure_filename
-import psutil
+
 
 app = Flask(__name__)
 CORS(app)
-process = psutil.Process(os.getpid())
-
-def memory():
-    return process.memory_info().rss / (1024 * 1024)
 
 
 # Load trained model
-print(f"Memory before loading: {memory():.2f} MB")
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 model_path = os.path.join(BASE_DIR, "trained_model_V22.keras")
 model = tf.keras.models.load_model(model_path)
 print("Model loaded successfully.")
-print(f"Memory after loading: {memory():.2f} MB")
-print(f"Used by model: {memory():.2f} MB")
+
 
 # Class names (plant diseases)
 class_names = [
